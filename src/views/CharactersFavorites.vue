@@ -17,6 +17,7 @@
             class="favorite-btn favorite-btn--remove"
             @click="removeFromFavorites(favorite.id)"
           >retirer des favoris</button>
+          <router-link class="to-details-btn" :to="'/recurring/'+favorite.id">Voir plus</router-link>
         </div>
       </article>
     </section>
@@ -25,15 +26,15 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 import * as fromActions from "../store/actions.type";
 
 export default {
   name: "favorites-list",
   computed: {
-    ...mapState({
-      isLoading: state => state.character && state.character.isLoading,
-      favorites: state => state.character && state.character.favorites
+    ...mapGetters("character", {
+      isLoading: "isLoading",
+      favorites: "favorites"
     })
   },
   created() {
@@ -48,7 +49,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .add-new-wrapper {
   margin-bottom: 20px;

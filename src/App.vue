@@ -4,7 +4,6 @@
       <router-link class="menu--item" to="/">Accueil</router-link>
       <router-link class="menu--item" to="/list">Liste des personnages</router-link>
       <router-link class="menu--item" to="/favorites">Liste des favoris</router-link>
-      <router-link class="menu--item" to="/recurring">Personnages récurrents</router-link>
     </header>
     <router-view></router-view>
   </div>
@@ -21,7 +20,7 @@ export default {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /* text-align: center; */
   color: #2c3e50;
   margin-top: 60px;
 }

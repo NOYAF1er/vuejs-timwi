@@ -29,8 +29,32 @@ export const CharactersService = {
     return await ApiService.get('characters', slug, params);
   },
 
+  async getComics(characterId) {
+    const slug = `${characterId}/comics`;
+
+    return await ApiService.get('characters', slug);
+  },
+
   getThumbnail(ressource) {
 
+  }
+};
+
+export const ComicsService = {
+  async get(slug = null, offset = 0, limit = 20) {
+    const params = { offset, limit };
+
+    return await ApiService.get('comics', slug, params);
+  },
+
+  async getById(comicId) {
+    return await ApiService.get('comics', comicId);
+  },
+
+  async getCharacters(comicId) {
+    const slug = `${comicId}/characters`;
+
+    return await ApiService.get('comics', slug);
   }
 
 };

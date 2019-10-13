@@ -3,7 +3,7 @@ import * as fromActions from "./actions.type";
 import * as fromMutations from "./mutations.type";
 
 /**
- * https://developer.marvel.com/docs#!/public/getCreatorCollection_get_0
+ * https://developer.marvel.com/docs
  * 
  */
 
@@ -109,24 +109,20 @@ const mutations = {
 };
 
 const getters = {
-  characters(state) {
-    return state.characterDataContainer.data.results;
+  isLoading: state => state && state.isLoading,
+  characters: state => state && state.characterDataContainer && state.characterDataContainer.data && state.characterDataContainer.data.results,
+  offset: state => state && state.characterDataContainer && state.characterDataContainer.data && state.characterDataContainer.data.offset,
+  limit: state => state && state.characterDataContainer && state.characterDataContainer.data && state.characterDataContainer.data.limit,
+  total: state => state && state.characterDataContainer && state.characterDataContainer.data && state.characterDataContainer.data.total,
+  count: state => state && state.characterDataContainer && state.characterDataContainer.data && state.characterDataContainer.data.count,
+  favorites: state => state && state.favorites,
+  pages: (state, getters) => getters.total && getters.limit && Math.ceil(getters.total / getters.limit),
+  currentPages: (state, getters) => getters.offset && getters.limit && Math.ceil(getters.offset / getters.limit) + 1,
+  selectedCharacter: (state, getters) => (id) => {
+    return getters.characters && getters.characters.find(item => {
+      return item.id === parseInt(id)
+    });
   },
-  offset(state) {
-    return state.characterDataContainer.data.offset;
-  },
-  limit(state) {
-    return state.characterDataContainer.data.limit;
-  },
-  total(state) {
-    return state.characterDataContainer.data.total;
-  },
-  count(state) {
-    return state.characterDataContainer.data.count;
-  },
-  favorites(state) {
-    return state.favorites;
-  }
 };
 
 export default {

@@ -27,7 +27,7 @@ export default new Router({
     },
     {
       name: "recurring",
-      path: "/recurring",
+      path: "/recurring/:id",
       component: RecurringCharacters
     },
 

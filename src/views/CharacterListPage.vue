@@ -12,8 +12,10 @@
         <div class="actions">
           <button
             class="favorite-btn favorite-btn--add"
+            :disabled="isFavorite(character.id)"
             @click="addToFavorites(character.id)"
           >Ajouter aux favoris</button>
+          <router-link class="to-details-btn" :to="'/recurring/'+character.id">Voir plus</router-link>
         </div>
       </article>
     </section>
@@ -36,7 +38,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import * as fromActions from "../store/actions.type";
 
 const PAGE_CONTENT_NUMBER = 20;
@@ -44,34 +46,15 @@ const PAGE_CONTENT_NUMBER = 20;
 export default {
   name: "characters-list",
   computed: {
-    ...mapState({
-      isLoading: state => state.character && state.character.isLoading,
-      characters: state =>
-        state.character &&
-        state.character.characterDataContainer &&
-        state.character.characterDataContainer.data &&
-        state.character.characterDataContainer.data.results,
-      offset: state =>
-        state.character && state.character.characterDataContainer.data.offset,
-      limit: state =>
-        state.character && state.character.characterDataContainer.data.limit,
-      total: state =>
-        state.character && state.character.characterDataContainer.data.total,
-      count: state =>
-        state.character && state.character.characterDataContainer.data.count,
-      pages: state =>
-        state.character &&
-        Math.round(
-          state.character.characterDataContainer.data.total /
-            state.character.characterDataContainer.data.limit
-        ),
-      currentPages: state =>
-        state.character &&
-        Math.ceil(
-          state.character.characterDataContainer.data.offset /
-            state.character.characterDataContainer.data.limit
-        ) + 1,
-      favorites: state => state.character && state.character.favorites
+    ...mapGetters("character", {
+      isLoading: "isLoading",
+      characters: "characters",
+      favorites: "favorites",
+      total: "total",
+      limit: "limit",
+      offset: "offset",
+      pages: "pages",
+      currentPages: "currentPages"
     })
   },
   created() {
@@ -94,12 +77,14 @@ export default {
         return;
       }
       await this.fetchCharacters(this.offset - PAGE_CONTENT_NUMBER, this.limit);
+    },
+    isFavorite: function(characterId) {
+      return this.favorites.some(item => item.id === characterId);
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .characters--list {
   display: flex;
