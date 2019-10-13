@@ -2,10 +2,9 @@ import Vue from "vue";
 import Router from "vue-router";
 
 import HomePage from "./views/HomePage";
-import Characters from "./views/Characters";
-import CharacterDetails from "./views/CharacterDetails";
 import CharacterListPage from "./views/CharacterListPage";
 import CharactersFavorites from "./views/CharactersFavorites";
+import RecurringCharacters from "./views/RecurringCharacters";
 
 Vue.use(Router);
 
@@ -17,26 +16,19 @@ export default new Router({
       component: HomePage
     },
     {
-      name: "favorites",
-      path: "/favorites",
-      component: CharactersFavorites
-    },
-    {
       name: "list",
       path: "/list",
       component: CharacterListPage
     },
     {
-      name: "characters",
-      path: "/characters",
-      component: Characters,
-      children: [
-        {
-          name: "details",
-          path: "/:slug",
-          component: CharacterDetails
-        }
-      ]
+      name: "favorites",
+      path: "/favorites",
+      component: CharactersFavorites
+    },
+    {
+      name: "recurring",
+      path: "/recurring",
+      component: RecurringCharacters
     },
 
     // otherwise redirect to home

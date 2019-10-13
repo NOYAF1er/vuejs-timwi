@@ -1,29 +1,43 @@
 <template>
   <div id="app">
-    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+    <header class="menu">
+      <router-link class="menu--item" to="/">Accueil</router-link>
+      <router-link class="menu--item" to="/list">Liste des personnages</router-link>
+      <router-link class="menu--item" to="/favorites">Liste des favoris</router-link>
+      <router-link class="menu--item" to="/recurring">Personnages récurrents</router-link>
+    </header>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'app',
-  // components: {
-  //   HelloWorld
-  // }
-}
+  name: "app"
+};
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.menu--item:hover {
+  text-decoration: none;
+}
+
+.menu--item + .menu--item {
+  margin-left: 20px;
 }
 </style>
