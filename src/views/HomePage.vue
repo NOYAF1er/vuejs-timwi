@@ -1,7 +1,6 @@
 <template>
   <section class="home">
-    <router-link to="/list">Liste des personnages</router-link>
-    <router-link to="/favorites">Liste des favoris</router-link>
+    <img alt="Vue logo" src="../assets/logo.png" />
   </section>
 </template>
 
@@ -13,5 +12,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.home {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
 </style>
