@@ -1,16 +1,13 @@
 <template>
-  <section class="characters-details">
-    details
-  </section>
+  <section class="recurring-characters">recurring</section>
 </template>
 
 <script>
 export default {
-  name: "characters-details"
+  name: "recurring-characters"
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 </style>
