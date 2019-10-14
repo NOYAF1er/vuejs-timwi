@@ -23,8 +23,8 @@
         class="md-raised md-primary favorite-btn favorite-btn--remove"
         @click="removeFromFavorites(character.id)"
         v-if="fromFavorite"
-      ><md-icon>delete_outline</md-icon> retirer des favoris</md-button>
-      <md-button class="md-raised to-details-btn" :to="'/recurring/'+character.id">Voir plus</md-button>
+      ><md-icon>delete_outline</md-icon> retirer</md-button>
+      <md-button class="md-raised md-accent to-details-btn" :to="'/recurring/'+character.id">Voir plus</md-button>
     </md-card-actions>
   </md-card>
 </template>

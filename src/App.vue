@@ -5,7 +5,7 @@
         <h3 class="md-title" style="flex: 1">My Marvel Team</h3>
         <md-button to="/" class="md-primary">Accueil</md-button>
         <md-button to="/list" class="md-primary">Liste des personnages</md-button>
-        <md-button to="/favorites" class="md-primary">Liste des favoris</md-button>
+        <md-button to="/favorites" class="md-primary">Ma super team</md-button>
       </md-app-toolbar>
       <md-app-content>
         <router-view></router-view>
