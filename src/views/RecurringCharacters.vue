@@ -3,7 +3,7 @@
     <div class="loading" v-if="isLoading">Chargement en cours...</div>
     <template v-else>
       <table class="table" v-if="comicsCharacters.length > 0">
-        <caption>Personnages apparaissant dans les même comics que {{characterName}}</caption>
+        <caption>Personnages apparaissant dans les mêmes comics que {{characterName}}</caption>
         <thead class="table--header">
           <td>#</td>
           <td>Nom</td>
