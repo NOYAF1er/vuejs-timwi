@@ -1,6 +1,6 @@
 <template>
   <section class="favorites">
-    <h2 class="favorites--title">Ma super team</h2>
+    <h2 class="md-display-1 favorites--title">Ma super team</h2>
     <div class="add-new-wrapper">
       <md-button to="/list" class="md-raised md-primary"><md-icon>add</md-icon> Ajouter</md-button>
     </div>

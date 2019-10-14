@@ -1,6 +1,6 @@
 <template>
   <section class="characters">
-    <h2 class="characters--title">Liste des personnages</h2>
+    <h2 class="md-display-1 characters--title">Liste des personnages</h2>
     <template v-if="characters">
       <section class="characters--list">
         <CharacterCard
