@@ -2,16 +2,27 @@
   <section class="favorites">
     <h2 class="favorites--title">Ma super team</h2>
     <div class="add-new-wrapper">
-      <router-link class="add-btn" to="/list">Ajouter</router-link>
+      <md-button to="/list" class="md-raised md-primary"><md-icon>add</md-icon> Ajouter</md-button>
     </div>
     <section class="favorites--list" v-if="favorites">
-      <CharacterCard
-        class="favorite"
-        v-for="favorite in favorites"
-        :key="favorite.id"
-        :character="favorite"
-        :fromFavorite="true"
-      ></CharacterCard>
+      <template v-if="favorites.length">
+        <CharacterCard
+          class="favorite"
+          v-for="favorite in favorites"
+          :key="favorite.id"
+          :character="favorite"
+          :fromFavorite="true"
+        ></CharacterCard>
+      </template>
+
+      <md-empty-state
+        md-icon="cancel_presentation"
+        md-label="Super team vide"
+        md-description="Il semble que vous n'ayez pas encore constituer votre super team."
+        v-else
+      >
+        <md-button to="/list" class="md-raised md-primary">Faire votre choix</md-button>
+      </md-empty-state>
     </section>
     <section class="loading" v-else>Chargement en cours...</section>
   </section>
@@ -53,11 +64,5 @@ export default {
 .add-new-wrapper {
   margin-bottom: 40px;
   text-align: center;
-}
-
-.favorites--list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
 }
 </style>

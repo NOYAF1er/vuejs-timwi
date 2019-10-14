@@ -38,11 +38,13 @@ export default {
   },
   created() {
     this.fetchCharacters();
+    this.getFavorites();
   },
   methods: {
     ...mapActions("character", {
       fetchCharacters: fromActions.FETCH_CHARACTERS,
       infinitFetchCharacters: fromActions.INFINITE_HANDLER,
+      getFavorites: fromActions.GET_FAVORITES,
       addToFavorites: fromActions.ADD_TO_FAVORITES,
       removeFromFavorites: fromActions.REMOVE_FROM_FAVORITES
     }),
@@ -65,10 +67,5 @@ export default {
 <style scoped>
 .characters--title {
   text-align: center;
-}
-.characters--list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
 }
 </style>

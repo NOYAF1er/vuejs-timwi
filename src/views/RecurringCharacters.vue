@@ -1,21 +1,25 @@
 <template>
   <section class="recurring-characters">
-    <div class="loading" v-if="isLoading">Chargement en cours...</div>
+    <div class="loading-wraper" v-if="isLoading">
+      <md-progress-spinner md-mode="indeterminate"></md-progress-spinner>
+    </div>
     <template v-else>
-      <table class="table" v-if="comicsCharacters.length > 0">
-        <caption>Personnages apparaissant dans les mêmes comics que {{characterName}}</caption>
-        <thead class="table--header">
-          <td>#</td>
-          <td>Nom</td>
-          <td>Nombre d'apparition</td>
-        </thead>
-        <tr class="table--row" v-for="(character, index) in comicsCharacters" :key="character.id">
-          <td>{{index+1}}</td>
-          <td>{{character.name}}</td>
-          <td>{{character.counter}}</td>
-        </tr>
-      </table>
-      <div class="empty" v-else>Il semble que {{characterName}} est tout seul dans ses comics</div>
+      <md-table v-model="comicsCharacters" md-card v-if="comicsCharacters.length > 0">
+        <md-table-toolbar>
+          <h1 class="md-title">Personnages apparaissant dans les mêmes comics que {{characterName}}</h1>
+        </md-table-toolbar>
+
+        <md-table-row slot="md-table-row" slot-scope="{ item }">
+          <!-- <md-table-cell md-label="#" md-numeric>{{ item.id }}</md-table-cell> -->
+          <md-table-cell md-label="Nom">{{ item.name }}</md-table-cell>
+          <md-table-cell md-label="Nombre d'apparition">{{ item.counter }}</md-table-cell>
+        </md-table-row>
+      </md-table>
+
+      <md-empty-state md-rounded md-icon="blur_off" md-label="Vide" v-else>
+        Il semblerait que
+        <strong>{{characterName}}</strong> est toujours seul
+      </md-empty-state>
     </template>
   </section>
 </template>
@@ -97,11 +101,10 @@ export default {
 </script>
 
 <style scoped>
-.loading {
-  text-align: center;
-}
-
-.table {
-  width: 100%;
+.loading-wraper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
 }
 </style>

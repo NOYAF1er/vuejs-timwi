@@ -1,39 +1,40 @@
 <template>
-  <article class="character-card">
-    <header class="name">{{ character.name }}</header>
-    <Thumbnail
-      class="thumbnail-wrapper"
-      :path="character.thumbnail.path"
-      :extension="character.thumbnail.extension"
-    ></Thumbnail>
-    <div class="description">{{ character.description }}</div>
-    <div class="actions">
-      <button
-        class="favorite-btn favorite-btn--add"
+  <md-card class="character-card">
+    <md-card-area>
+      <md-card-media>
+        <img :src="thumbnail" :alt="character.name" />
+      </md-card-media>
+
+      <md-card-header>
+        <div class="md-title">{{ character.name }}</div>
+      </md-card-header>
+
+      <md-card-content>{{ character.description }}</md-card-content>
+    </md-card-area>
+
+    <md-card-actions md-alignment="right">
+      <md-button
+        class="md-raised md-primary favorite-btn favorite-btn--add"
         :disabled="isFavorite(character.id)"
         @click="addToFavorites(character.id)"
         v-if="!fromFavorite"
-      >Ajouter aux favoris</button>
-      <button
-        class="favorite-btn favorite-btn--remove"
+      ><md-icon>favorite_border</md-icon> Ajouter aux favoris</md-button>
+      <md-button
+        class="md-raised md-primary favorite-btn favorite-btn--remove"
         @click="removeFromFavorites(character.id)"
         v-if="fromFavorite"
-      >retirer des favoris</button>
-      <router-link class="to-details-btn" :to="'/recurring/'+character.id">Voir plus</router-link>
-    </div>
-  </article>
+      ><md-icon>delete_outline</md-icon> retirer des favoris</md-button>
+      <md-button class="md-raised to-details-btn" :to="'/recurring/'+character.id">Voir plus</md-button>
+    </md-card-actions>
+  </md-card>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
 import * as fromActions from "../store/actions.type";
-import Thumbnail from "./Thumbnail";
 
 export default {
   name: "character-card",
-  components: {
-    Thumbnail
-  },
   props: {
     character: { type: Object, required: true },
     fromFavorite: Boolean
@@ -41,7 +42,10 @@ export default {
   computed: {
     ...mapGetters("character", {
       favorites: "favorites"
-    })
+    }),
+    thumbnail: function() {
+      return `${this.character.thumbnail.path}/portrait_xlarge.${this.character.thumbnail.extension}`;
+    }
   },
   methods: {
     ...mapActions("character", {
@@ -56,37 +60,10 @@ export default {
 </script>
 
 <style scoped>
-.character-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 250px;
-  margin-bottom: 20px;
-  border: 1px black solid;
-}
-.name {
-  text-align: center;
-  font-weight: 600;
-  padding: 20px;
-  background-color: lightslategray;
-}
-
-.thumbnail-wrapper {
-  height: 250px;
-}
-
-.description {
-  padding: 10px;
-  text-align: justify;
-}
-
-.actions {
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-}
-
-.favorite-btn + .favorite-btn {
-  margin-top: 10px;
+.md-card {
+  width: 320px;
+  margin: 10px;
+  display: inline-block;
+  vertical-align: top;
 }
 </style>

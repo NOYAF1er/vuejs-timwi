@@ -1,11 +1,16 @@
 <template>
   <div id="app">
-    <header class="menu">
-      <router-link class="menu--item" to="/">Accueil</router-link>
-      <router-link class="menu--item" to="/list">Liste des personnages</router-link>
-      <router-link class="menu--item" to="/favorites">Liste des favoris</router-link>
-    </header>
-    <router-view></router-view>
+    <md-app md-mode="reveal">
+      <md-app-toolbar class="md-primary menu">
+        <h3 class="md-title" style="flex: 1">My Marvel Team</h3>
+        <md-button to="/" class="md-primary">Accueil</md-button>
+        <md-button to="/list" class="md-primary">Liste des personnages</md-button>
+        <md-button to="/favorites" class="md-primary">Liste des favoris</md-button>
+      </md-app-toolbar>
+      <md-app-content>
+        <router-view></router-view>
+      </md-app-content>
+    </md-app>
   </div>
 </template>
 
@@ -16,27 +21,10 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /* text-align: center; */
-  color: #2c3e50;
-  margin-top: 60px;
-}
+@import "//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic|Material+Icons";
 
-.menu {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-}
-
-.menu--item:hover {
-  text-decoration: none;
-}
-
-.menu--item + .menu--item {
-  margin-left: 20px;
+.md-app {
+  max-height: 100vh;
+  border: 1px solid rgba(#000, 0.12);
 }
 </style>
