@@ -10,7 +10,7 @@
           :character="character"
         ></CharacterCard>
       </section>
-      <infinite-loading @infinite="infiniteHandler"></infinite-loading>
+      <infinite-loading spinner="spiral" @infinite="infiniteHandler"></infinite-loading>
     </template>
   </section>
 </template>
