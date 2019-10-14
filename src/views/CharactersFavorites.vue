@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import * as fromActions from "../store/actions.type";
 
 export default {

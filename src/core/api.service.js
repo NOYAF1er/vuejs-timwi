@@ -35,9 +35,14 @@ export const CharactersService = {
     return await ApiService.get('characters', slug);
   },
 
-  getThumbnail(ressource) {
+  // getThumbnail(ressource, extension, format = "portrait_xlarge") {
+  //   const url = `${ressource}/${format}.${extension}`;
 
-  }
+  //   return Vue.axios.get(url).catch(error => {
+  //     // console.warn(error);
+  //     throw new Error(`[MARVEL] CharactersService ${error}`);
+  //   });
+  // }
 };
 
 export const ComicsService = {

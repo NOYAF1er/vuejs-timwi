@@ -22,7 +22,7 @@
 
 <script>
 import * as fromApi from "../core/api.service";
-import { mapState, mapActions, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   data: function() {

@@ -1,50 +1,47 @@
 <template>
   <section class="characters">
     <h2 class="characters--title">Liste des personnages</h2>
-    <section class="characters--list" v-if="characters">
-      <article class="character" v-for="character in characters" :key="character.id">
-        <header class="name">{{ character.name }}</header>
-        <div
-          class="thumbnail"
-          :style="{'background-image': 'src(' + character.thumbnail + ')', 'background-position': 'center', 'background-repeat': 'no-repeat'}"
-        ></div>
-        <div class="description">{{ character.description }}</div>
-        <div class="actions">
-          <button
-            class="favorite-btn favorite-btn--add"
-            :disabled="isFavorite(character.id)"
-            @click="addToFavorites(character.id)"
-          >Ajouter aux favoris</button>
-          <router-link class="to-details-btn" :to="'/recurring/'+character.id">Voir plus</router-link>
-        </div>
-      </article>
-    </section>
+    <template v-if="characters">
+      <section class="characters--list">
+        <article class="character" v-for="character in characters" :key="character.id">
+          <header class="name">{{ character.name }}</header>
+          <Thumbnail
+            class="thumbnail-wrapper"
+            :path="character.thumbnail.path"
+            :extension="character.thumbnail.extension"
+          ></Thumbnail>
+          <div class="description">{{ character.description }}</div>
+          <div class="actions">
+            <button
+              class="favorite-btn favorite-btn--add"
+              :disabled="isFavorite(character.id)"
+              @click="addToFavorites(character.id)"
+            >Ajouter aux favoris</button>
+            <router-link class="to-details-btn" :to="'/recurring/'+character.id">Voir plus</router-link>
+          </div>
+        </article>
+      </section>
+      <infinite-loading @infinite="infiniteHandler"></infinite-loading>
+    </template>
     <section class="loading" v-else>Chargement en cours...</section>
-
-    <div class="pagination" v-if="characters">
-      <span>page {{currentPages}}/{{pages}}</span>
-      <button
-        class="previous"
-        :disabled="isLoading || currentPages === 1"
-        @click="previousPage()"
-      >précédents</button>
-      <button
-        class="next"
-        :disabled="isLoading || currentPages === pages"
-        @click="nextPage()"
-      >suivants</button>
-    </div>
   </section>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import InfiniteLoading from "vue-infinite-loading";
 import * as fromActions from "../store/actions.type";
+import * as fromApi from "../core/api.service";
+import Thumbnail from "../components/Thumbnail";
 
 const PAGE_CONTENT_NUMBER = 20;
 
 export default {
   name: "characters-list",
+  components: {
+    InfiniteLoading,
+    Thumbnail
+  },
   computed: {
     ...mapGetters("character", {
       isLoading: "isLoading",
@@ -63,23 +60,24 @@ export default {
   methods: {
     ...mapActions("character", {
       fetchCharacters: fromActions.FETCH_CHARACTERS,
+      infinitFetchCharacters: fromActions.INFINITE_HANDLER,
       addToFavorites: fromActions.ADD_TO_FAVORITES,
       removeFromFavorites: fromActions.REMOVE_FROM_FAVORITES
     }),
-    nextPage: async function() {
-      if (this.currentPages >= this.pages) {
-        return;
-      }
-      await this.fetchCharacters(this.offset + PAGE_CONTENT_NUMBER, this.limit);
-    },
-    previousPage: async function() {
-      if (this.offset <= 0) {
-        return;
-      }
-      await this.fetchCharacters(this.offset - PAGE_CONTENT_NUMBER, this.limit);
-    },
     isFavorite: function(characterId) {
       return this.favorites.some(item => item.id === characterId);
+    },
+    infiniteHandler: function($state) {
+      this.infinitFetchCharacters(
+        this.offset + PAGE_CONTENT_NUMBER,
+        this.limit
+      ).then(({ data }) => {
+        if (data.results.length) {
+          $state.loaded();
+        } else {
+          $state.complete();
+        }
+      });
     }
   }
 };
@@ -108,7 +106,7 @@ export default {
   background-color: lightslategray;
 }
 
-.thumbnail {
+.thumbnail-wrapper {
   height: 250px;
 }
 

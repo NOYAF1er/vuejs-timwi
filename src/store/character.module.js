@@ -26,9 +26,22 @@ const actions = {
   [fromActions.FETCH_CHARACTERS](context, offset = 0, limit = 20) {
     context.commit(fromMutations.FETCH_START);
     return CharactersService.get(null, offset, limit)
-      .then(({ data }) => {
-        context.commit(fromMutations.SET_CHARACTERS, data);
-        return data;
+      .then(({ data: response }) => {
+        context.commit(fromMutations.SET_CHARACTERS, response.data);
+        return response;
+      })
+      .catch(error => {
+        // eslint-disable-next-line
+        console.warn(error)
+        // context.commit(SET_ERROR, errors)
+      });
+  },
+
+  [fromActions.INFINITE_HANDLER](context, offset = 0, limit = 20) {
+    return CharactersService.get(null, offset, limit)
+      .then(({ data: response }) => {
+        context.commit(fromMutations.INFINITE_SET_CHARACTERS, response.data);
+        return response
       })
       .catch(error => {
         // eslint-disable-next-line
@@ -97,8 +110,20 @@ const mutations = {
   [fromMutations.FETCH_START](state) {
     state.isLoading = true;
   },
-  [fromMutations.SET_CHARACTERS](state, response) {
-    state.characterDataContainer = response;
+  [fromMutations.SET_CHARACTERS](state, payload) {
+    state.characterDataContainer = payload;
+    state.isLoading = false;
+    // state.errors = {};
+  },
+  [fromMutations.INFINITE_SET_CHARACTERS](state, payload) {
+    state.characterDataContainer = {
+      ...state.characterDataContainer,
+      offset: payload.offset,
+      limit: payload.limit,
+      count: payload.count,
+      total: payload.total,
+      results: [...state.characterDataContainer.results, ...payload.results]
+    }
     state.isLoading = false;
     // state.errors = {};
   },
@@ -110,11 +135,11 @@ const mutations = {
 
 const getters = {
   isLoading: state => state && state.isLoading,
-  characters: state => state && state.characterDataContainer && state.characterDataContainer.data && state.characterDataContainer.data.results,
-  offset: state => state && state.characterDataContainer && state.characterDataContainer.data && state.characterDataContainer.data.offset,
-  limit: state => state && state.characterDataContainer && state.characterDataContainer.data && state.characterDataContainer.data.limit,
-  total: state => state && state.characterDataContainer && state.characterDataContainer.data && state.characterDataContainer.data.total,
-  count: state => state && state.characterDataContainer && state.characterDataContainer.data && state.characterDataContainer.data.count,
+  characters: state => state && state.characterDataContainer && state.characterDataContainer.results,
+  offset: state => state && state.characterDataContainer && state.characterDataContainer.offset,
+  limit: state => state && state.characterDataContainer && state.characterDataContainer.limit,
+  total: state => state && state.characterDataContainer && state.characterDataContainer.total,
+  count: state => state && state.characterDataContainer && state.characterDataContainer.count,
   favorites: state => state && state.favorites,
   pages: (state, getters) => getters.total && getters.limit && Math.ceil(getters.total / getters.limit),
   currentPages: (state, getters) => getters.offset && getters.limit && Math.ceil(getters.offset / getters.limit) + 1,
